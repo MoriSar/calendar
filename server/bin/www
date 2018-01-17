@@ -22,7 +22,7 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
-
+mongoose.Promise = global.Promise;
 mongoose.connect(config.get('mongoose:uri'), (err, database) => {
     if (err) {
         return console.log(err);
