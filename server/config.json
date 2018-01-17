@@ -1,0 +1,6 @@
+{
+  "port" : 3030,
+  "mongoose": {
+    "uri": "mongodb://admin:becati00@ds259897.mlab.com:59897/morisar_database"
+  }
+}
