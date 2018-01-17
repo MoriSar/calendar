@@ -1,6 +1,5 @@
 import React from 'react'
-import { CounterContainer } from 'containers'
-import { Header } from 'components'
+import { CalendarContainer } from 'containers'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -12,8 +11,7 @@ function Routes() {
   return (
     <Router>
       <Container>
-        <Header />
-        <Route path="/" component={CounterContainer} />
+        <Route path="/" component={CalendarContainer} />
       </Container>
     </Router>
   )
