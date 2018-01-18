@@ -38,7 +38,7 @@ router.post('/singup', function (req, res, next) {
 /* Регистрация пользователя */
 router.post('/singin', function (req, res, next) {
     api
-        .createUser(req.body)
+        .checkCollection(req.body)
         .then(function (result) {
             api.createCalendar(result)
                 .then(function () {
@@ -50,16 +50,30 @@ router.post('/singin', function (req, res, next) {
                 });
         })
         .catch(function (err) {
-            if (err.toJSON().code === 11000) {
-                const data = {
-                    title: 'Login',
-                    event: 'Такой пользователь уже есть',
-                    error: err,
-                }
-                res.status(500).send(data)
-            } else {
-                res.send(err)
-            }
+            console.log(err);
+            api.createUser(req.body)
+                .then(function (result) {
+                    api.createCalendar(result)
+                        .then(function () {
+                            const data = {
+                                title: 'Calendar',
+                                event: 'Создан новый пользователь',
+                            }
+                            res.status(200).send(data)
+                        });
+                })
+                .catch(function (err) {
+                    if (err.toJSON().code === 11000) {
+                        const data = {
+                            title: 'Login',
+                            event: 'Такой пользователь уже есть',
+                            error: err,
+                        }
+                        res.status(500).send(data)
+                    } else {
+                        res.send(err)
+                    }
+                })
         })
 })
 /* Разлогирование пользователя */

@@ -3,17 +3,20 @@ const db = require('./bin/www')
 const User = require('./models/Users.js')
 const Calendar = require('./models/Calendar.js')
 
+exports.checkCollection = function (userData) {
+    const user = {
+        name: userData.name,
+        password: hash(userData.password),
+    }
+    return new User(user).save()
+}
+
 exports.createUser = function (userData) {
     const user = {
         name: userData.name,
         password: hash(userData.password),
-        calendar: [{
-            title: '',
-            start: 0,
-            duration: 0
-        }]
     }
-    return new User(user).save()
+    return User.update(user);
 }
 
 exports.getUser = function (id) {
