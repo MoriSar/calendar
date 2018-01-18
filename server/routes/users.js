@@ -48,14 +48,14 @@ router.post('/singin', function(req, res, next) {
       res.status(200).send(data)
     })
     .catch(function(err) {
-      if (err.toJSON().code === 11000) {
-        const data = {
-          title: 'Login',
-          event: 'Такой пользователь уже есть',
-          error: err,
-        }
-        res.status(500).send(data)
-      } else {
+        if (err.toJSON().code === 11000) {
+            const data = {
+                title: 'Login',
+                event: 'Такой пользователь уже есть',
+                error: err,
+            }
+            res.status(500).send(data)
+        } else {
         res.send(err)
       }
     })
@@ -72,6 +72,21 @@ router.post('/singout', function(req, res, next) {
     }
     res.status(500).send(data)
   }
+})
+/* Получить информацию юзера */
+router.post('/getdata', function (req, res, next) {
+    api.getUserData(req.body.name)
+        .then(function (result) {
+            console.log(result);
+            res.send({
+                    userName: result.name,
+                    calendar: result.calendar
+                }
+            );
+        })
+        .catch(function (err) {
+            res.send(err);
+        });
 })
 
 module.exports = router

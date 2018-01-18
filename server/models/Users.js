@@ -4,20 +4,27 @@ const Schema = mongoose.Schema
 
 // create a schema
 const userSchema = new Schema({
-  _id: {
-    type: Number,
-    unique: false,
-    required: true,
-  },
-  name: {
-    type: String,
-    unique: false,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
+    name: {
+        type: String,
+        index: true,
+        unique: true,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    calendar: [{
+        title: {
+            type: String,
+        },
+        start: {
+            type: Number,
+        },
+        duration: {
+            type: Number,
+        }
+    }]
 })
 
 // the schema is useless so far
