@@ -13,18 +13,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-    },
-    calendar: [{
-        title: {
-            type: String,
-        },
-        start: {
-            type: Number,
-        },
-        duration: {
-            type: Number,
-        }
-    }]
+    }
 })
 
 // the schema is useless so far

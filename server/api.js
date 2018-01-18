@@ -1,9 +1,10 @@
 const crypto = require('crypto')
 const db = require('./bin/www')
 const User = require('./models/Users.js')
+const Calendar = require('./models/Calendar.js')
 
 exports.createUser = function (userData) {
-    const user = new User({
+    const user = {
         name: userData.name,
         password: hash(userData.password),
         calendar: [{
@@ -11,8 +12,8 @@ exports.createUser = function (userData) {
             start: 0,
             duration: 0
         }]
-    })
-    return user.save()
+    }
+    return new User(user).save()
 }
 
 exports.getUser = function (id) {
@@ -38,7 +39,26 @@ exports.getUserData = function (userData) {
             console.log(err);
         })
 }
-
+exports.createCalendar = function (userData) {
+    const calendar = {
+        userId: userData._id,
+        calendar: [{
+            title: '',
+            start: 0,
+            duration: 0
+        }]
+    }
+    return new Calendar(calendar).save();
+}
+exports.getCalendar = function (userData) {
+    return Calendar.findOne({userId: userData})
+        .then(function (doc) {
+            return Promise.resolve(doc);
+        })
+        .catch(function (err) {
+            console.log(err);
+        })
+}
 function hash(text) {
     return crypto
         .createHash('sha1')
