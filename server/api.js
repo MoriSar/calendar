@@ -62,6 +62,19 @@ exports.getCalendar = function (userData) {
             console.log(err);
         })
 }
+exports.updateCalendar = function (userData, calendarData) {
+    return Calendar.findOneAndUpdate({userId: userData}, {calendar: calendarData})
+        .then(function (taruri) {
+            return Promise.resolve(taruri);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+}
+exports.clearCalendar = function (data) {
+
+}
+
 function hash(text) {
     return crypto
         .createHash('sha1')

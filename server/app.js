@@ -10,6 +10,7 @@ const config = require('./config/')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const calendar = require('./routes/calendar')
 
 const app = express()
 
@@ -38,6 +39,7 @@ app.use(
 
 app.use('/', index)
 app.use('/users', users)
+app.use('/calendar', calendar)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
