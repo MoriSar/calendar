@@ -4,6 +4,7 @@ const api = require('../api')
 
 /* Авторизация пользователя */
 router.post('/singup', function (req, res, next) {
+    console.log(req.body);
     if (req.session.user) {
         console.log('Восстановление сессии -> страница авторизации')
         return res.redirect('/')

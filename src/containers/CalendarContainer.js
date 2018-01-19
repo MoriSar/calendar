@@ -43,7 +43,7 @@ class CalendarContainer extends React.Component {
     }
     useAPI(api, actionRes, actionRej, data){
         const url = API[api].url;
-        const body = JSON.stringify(data) || null;
+        const body = data || null;
         const headers = {};
         Ajax[API[api].method](url, body, headers).then((res)=> {
             actionRes(JSON.parse(res));
@@ -65,8 +65,37 @@ class CalendarContainer extends React.Component {
     sessionIsGone(event) {
         this.props.sessionIsGone({event});
     }
-    onSubmit = event => {
-        this.props.onSubmit({event})
+    onLogin = event => {
+        event.preventDefault();
+        const data = {
+            name: this.props.state.calendar.login.name,
+            password: this.props.state.calendar.login.password
+        };
+        this.useAPI('userSingIn', (resp) => {
+            this.props.onLogin({event, payload: resp});
+        }, () => {}, data);
+    }
+    onLogup = event => {
+        event.preventDefault();
+        const data = {
+            name: this.props.state.calendar.login.name,
+            password: this.props.state.calendar.login.password
+        };
+        this.useAPI('userSingUp', (resp) => {
+            this.props.onLogin({event, payload: resp});
+        }, () => {}, data);
+    }
+    onLogout = event => {
+        event.preventDefault();
+        this.useAPI('userSingOut', (resp) => {
+            this.props.onLogin({event, payload: resp});
+        }, () => {});
+    }
+    onLoginChange = event => {
+        this.props.onLoginChange({event});
+    }
+    onPasswordChange = event => {
+        this.props.onPasswordChange({event});
     }
 
     componentDidMount() {
@@ -78,7 +107,10 @@ class CalendarContainer extends React.Component {
             <main>
                 <Login
                     state={this.props.state}
-                    onSubmit={this.onSubmit}
+                    onLogin={this.onLogin}
+                    onLogup={this.onLogup}
+                    onLoginChange={this.onLoginChange}
+                    onPasswordChange={this.onPasswordChange}
                 />
                 <Calendar/>
             </main>
