@@ -1,7 +1,7 @@
 import {
-    ON_LOGIN,
-    ON_LOGUP,
-    ON_LOGOUT,
+    ON_SIGN_IN,
+    ON_SIGN_UP,
+    ON_SIGN_OUT,
     ON_LOGIN_CHANGE,
     ON_PASSWORD_CHANGE,
     SESSION_IS_ACTIVE,
@@ -9,9 +9,9 @@ import {
 } from 'constants/ActionTypes'
 import {createAction} from 'redux-actions'
 
-export const onLogin = createAction(ON_LOGIN)
-export const onLogup = createAction(ON_LOGUP)
-export const onLogout = createAction(ON_LOGOUT)
+export const onUserSignIn = createAction(ON_SIGN_IN)
+export const onUserSignUp = createAction(ON_SIGN_UP)
+export const onUserSignOut = createAction(ON_SIGN_OUT)
 export const onLoginChange = createAction(ON_LOGIN_CHANGE)
 export const onPasswordChange = createAction(ON_PASSWORD_CHANGE)
 export const sessionIsActive = createAction(SESSION_IS_ACTIVE)

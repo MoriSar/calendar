@@ -4,6 +4,6 @@
 .App[data-state="Login"] #Calendar {
 	display: none;
 }
-.App[data-set="Calendar"] #Login {
+.App[data-state="Calendar"] #Login {
 	display: none;
 }

@@ -14,17 +14,17 @@ const API = {
         method: 'get',
         url: 'http://localhost:3030'
     },
-    'userSingIn': {
+    'userSignIn': {
         method: 'post',
-        url: 'http://localhost:3030/users/singin'
+        url: 'http://localhost:3030/users/signin'
     },
-    'userSingUp': {
+    'userSignUp': {
         method: 'post',
-        url: 'http://localhost:3030/users/singup'
+        url: 'http://localhost:3030/users/signup'
     },
-    'userSingOut': {
+    'userSignOut': {
         method: 'post',
-        url: 'http://localhost:3030/users/singout'
+        url: 'http://localhost:3030/users/signout'
     },
     'getCalendar': {
         method: 'post',
@@ -65,30 +65,30 @@ class CalendarContainer extends React.Component {
     sessionIsGone(event) {
         this.props.sessionIsGone({event});
     }
-    onLogin = event => {
+    onUserSignIn = event => {
         event.preventDefault();
         const data = {
             name: this.props.state.calendar.login.name,
             password: this.props.state.calendar.login.password
         };
-        this.useAPI('userSingIn', (resp) => {
-            this.props.onLogin({event, payload: resp});
+        this.useAPI('userSignIn', (resp) => {
+            this.props.onUserSignIn({event, payload: resp});
         }, () => {}, data);
     }
-    onLogup = event => {
+    onUserSignUp = event => {
         event.preventDefault();
         const data = {
             name: this.props.state.calendar.login.name,
             password: this.props.state.calendar.login.password
         };
-        this.useAPI('userSingUp', (resp) => {
-            this.props.onLogin({event, payload: resp});
+        this.useAPI('userSignUp', (resp) => {
+            this.props.onUserSignUp({event, payload: resp});
         }, () => {}, data);
     }
-    onLogout = event => {
+    onUserSignOut = event => {
         event.preventDefault();
-        this.useAPI('userSingOut', (resp) => {
-            this.props.onLogin({event, payload: resp});
+        this.useAPI('userSignOut', (resp) => {
+            this.props.onUserSignOut({event, payload: resp});
         }, () => {});
     }
     onLoginChange = event => {
@@ -107,8 +107,8 @@ class CalendarContainer extends React.Component {
             <main>
                 <Login
                     state={this.props.state}
-                    onLogin={this.onLogin}
-                    onLogup={this.onLogup}
+                    onUserSignIn={this.onUserSignIn}
+                    onUserSignUp={this.onUserSignUp}
                     onLoginChange={this.onLoginChange}
                     onPasswordChange={this.onPasswordChange}
                 />

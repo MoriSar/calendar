@@ -3,7 +3,7 @@ const router = express.Router()
 const api = require('../api')
 
 /* Авторизация пользователя */
-router.post('/singup', function (req, res, next) {
+router.post('/signin', function (req, res, next) {
     console.log(req.body);
     if (req.session.user) {
         console.log('Восстановление сессии -> страница авторизации')
@@ -18,7 +18,7 @@ router.post('/singup', function (req, res, next) {
                     title: 'Calendar',
                     event: 'Вход выполнен',
                 }
-                res.redirect('/').send(JSON.stringify(data))
+                res.send(JSON.stringify(data))
             } else {
                 const data = {
                     title: 'Login',
@@ -37,7 +37,7 @@ router.post('/singup', function (req, res, next) {
         })
 })
 /* Регистрация пользователя */
-router.post('/singin', function (req, res, next) {
+router.post('/signup', function (req, res, next) {
     api
         .checkCollection(req.body)
         .then(function (result) {
@@ -78,7 +78,7 @@ router.post('/singin', function (req, res, next) {
         })
 })
 /* Разлогирование пользователя */
-router.post('/singout', function (req, res, next) {
+router.post('/signout', function (req, res, next) {
     if (req.session.user) {
         delete req.session.user
         res.redirect('/')
