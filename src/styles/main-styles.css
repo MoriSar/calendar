@@ -1,0 +1,9 @@
+.App[data-state="wait"] main {
+	display: none;
+}
+.App[data-state="Login"] #Calendar {
+	display: none;
+}
+.App[data-set="Calendar"] #Login {
+	display: none;
+}

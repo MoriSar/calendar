@@ -17,13 +17,13 @@ router.post('/singup', function (req, res, next) {
                     title: 'Calendar',
                     event: 'Вход выполнен',
                 }
-                res.redirect('/').send(data)
+                res.redirect('/').send(JSON.stringify(data))
             } else {
                 const data = {
                     title: 'Login',
                     event: 'Неудачный вход',
                 }
-                res.send(data)
+                res.send(JSON.stringify(data))
             }
         })
         .catch(function (error) {
@@ -31,7 +31,7 @@ router.post('/singup', function (req, res, next) {
                 title: 'Login',
                 event: 'Страница авторизации -> неверный логин',
             }
-            res.send(data)
+            res.send(JSON.stringify(data))
             return next(error)
         })
 })
@@ -46,7 +46,7 @@ router.post('/singin', function (req, res, next) {
                         title: 'Calendar',
                         event: 'Создан новый пользователь',
                     }
-                    res.status(200).send(data)
+                    res.status(200).send(JSON.stringify(data))
                 });
         })
         .catch(function (err) {
@@ -59,7 +59,7 @@ router.post('/singin', function (req, res, next) {
                                 title: 'Calendar',
                                 event: 'Создан новый пользователь',
                             }
-                            res.status(200).send(data)
+                            res.status(200).send(JSON.stringify(data))
                         });
                 })
                 .catch(function (err) {
@@ -69,9 +69,9 @@ router.post('/singin', function (req, res, next) {
                             event: 'Такой пользователь уже есть',
                             error: err,
                         }
-                        res.status(500).send(data)
+                        res.status(500).send(JSON.stringify(data))
                     } else {
-                        res.send(err)
+                        res.send(JSON.stringify(err))
                     }
                 })
         })
@@ -86,7 +86,7 @@ router.post('/singout', function (req, res, next) {
             title: 'Login',
             event: 'Некого разлогированивать',
         }
-        res.status(500).send(data)
+        res.status(500).send(JSON.stringify(data))
     }
 })
 module.exports = router

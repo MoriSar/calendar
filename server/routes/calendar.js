@@ -6,7 +6,7 @@ router.post('/get', function (req, res, next) {
     if (req.session.user) {
         api.getCalendar(req.session.user.id)
             .then(function (result) {
-                res.send(result);
+                res.send(JSON.stringify(result));
             })
             .catch(function (err) {
                 res.send(err);
@@ -20,11 +20,11 @@ router.post('/update', function (req, res, next) {
         const calendar = JSON.parse(req.body.calendar);
         api.updateCalendar(req.session.user.id, calendar)
             .then(function (result) {
-                res.send(result);
+                res.send(JSON.stringify(result));
             })
             .catch(function (err) {
                 console.log(err);
-                res.send(err);
+                res.send(JSON.stringify(err));
             })
     } else {
         res.send('Session was close');

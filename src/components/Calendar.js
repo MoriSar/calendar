@@ -11,7 +11,7 @@ const Intro = styled.p`
 
 function Calendar() {
   return (
-    <section>
+    <section id='Calendar'>
       <p>Calendar</p>
     </section>
   )

@@ -15,11 +15,11 @@ router.get('/', function (req, res, next) {
                             calendar: _result.calendar,
                             event: 'Запуск/восстановление сессии -> страница календаря',
                         }
-                        res.send(data);
+                        res.send(JSON.stringify(data));
                     })
             })
             .catch(function (err) {
-                res.send(err);
+                res.send(JSON.stringify(err));
             });
     } else {
         const data = {
