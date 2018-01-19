@@ -17,6 +17,7 @@ router.post('/signin', function (req, res, next) {
                 const data = {
                     title: 'Calendar',
                     event: 'Вход выполнен',
+                    user: req.session.user
                 }
                 res.send(JSON.stringify(data))
             } else {

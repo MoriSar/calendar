@@ -4,7 +4,6 @@ const api = require('../api')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    console.log(req.session.user);
     if (req.session.user) {
         api.getUserData(req.session.user.name)
             .then(function (result) {

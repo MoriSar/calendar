@@ -41,30 +41,48 @@ class CalendarContainer extends React.Component {
         super(props)
         this.state = this.props.state;
     }
-    useAPI(api, actionRes, actionRej, data){
+
+    getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    useAPI(api, actionRes, actionRej, data) {
         const url = API[api].url;
         const body = data || null;
         const headers = {};
-        Ajax[API[api].method](url, body, headers).then((res)=> {
+        Ajax[API[api].method](url, body, headers).then((res) => {
             actionRes(JSON.parse(res));
-        }).catch((err)=> {
+        }).catch((err) => {
             actionRej(err);
         });
     }
-    checkSession(){
-        this.useAPI('start', (resp) => {if (resp.title === 'Login') {
-            this.sessionIsGone();
-        } else if (resp.title === 'Calendar') {
-            this.sessionIsActive();
-        }}, () => {});
+
+    checkSession() {
+        const cookie = this.getCookie('username');
+        this.useAPI('start', (resp) => {
+            if (resp.title === 'Login') {
+                this.sessionIsGone();
+            } else if (resp.title === 'Calendar') {
+                this.sessionIsActive();
+            }
+        }, () => {
+        });
     }
-    onServerError(){}
+
+    onServerError() {
+    }
+
     sessionIsActive(event) {
         this.props.sessionIsActive({event});
     }
+
     sessionIsGone(event) {
         this.props.sessionIsGone({event});
     }
+
     onUserSignIn = event => {
         event.preventDefault();
         const data = {
@@ -72,8 +90,9 @@ class CalendarContainer extends React.Component {
             password: this.props.state.calendar.login.password
         };
         this.useAPI('userSignIn', (resp) => {
-            this.props.onUserSignIn({event, payload: resp});
-        }, () => {}, data);
+            this.props.onUserSignIn({event, resp});
+        }, () => {
+        }, data);
     }
     onUserSignUp = event => {
         event.preventDefault();
@@ -83,13 +102,15 @@ class CalendarContainer extends React.Component {
         };
         this.useAPI('userSignUp', (resp) => {
             this.props.onUserSignUp({event, payload: resp});
-        }, () => {}, data);
+        }, () => {
+        }, data);
     }
     onUserSignOut = event => {
         event.preventDefault();
         this.useAPI('userSignOut', (resp) => {
             this.props.onUserSignOut({event, payload: resp});
-        }, () => {});
+        }, () => {
+        });
     }
     onLoginChange = event => {
         this.props.onLoginChange({event});
@@ -101,6 +122,7 @@ class CalendarContainer extends React.Component {
     componentDidMount() {
         this.checkSession()
     }
+
     render() {
         const state = this.props.state.calendar;
         return <div className="App row" data-state={state.currentState}>
