@@ -1,0 +1,16 @@
+.calendar-layout {
+    list-style: none;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;;
+}
+.calendar-layout .item {
+    height: 60px;
+    color: #a2a2a2;
+}
+.calendar-layout .main {
+    border-top: 1px solid #a2a2a2;
+    font-size: 16px;
+}
+.calendar-layout .secondary {
+    font-size: 12px;
+}

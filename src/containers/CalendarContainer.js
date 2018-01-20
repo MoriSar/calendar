@@ -73,16 +73,16 @@ class CalendarContainer extends React.Component {
       })
 
     /*const url = API[api].url;
-        const body = data || null;
-        const _headers = headers || {'withCredentials': true};
+            const body = data || null;
+            const _headers = headers || {'withCredentials': true};
 
-        Ajax[API[api].method](url, body, _headers).then((res) => {
-            debugger;
+            Ajax[API[api].method](url, body, _headers).then((res) => {
+                debugger;
 
-            actionRes(JSON.parse(res));
-        }).catch((err) => {
-            actionRej(err);
-        });*/
+                actionRes(JSON.parse(res));
+            }).catch((err) => {
+                actionRej(err);
+            });*/
   }
 
   checkSession() {
@@ -140,7 +140,7 @@ class CalendarContainer extends React.Component {
     this.useAPI(
       'userSignUp',
       resp => {
-        this.props.onUserSignUp({ event, payload: resp })
+        this.props.onUserSignUp({ event, resp })
       },
       () => {},
       data
@@ -148,12 +148,16 @@ class CalendarContainer extends React.Component {
   }
   onUserSignOut = event => {
     event.preventDefault()
+    const data = {
+      name: this.props.state.calendar.login.name,
+    }
     this.useAPI(
       'userSignOut',
       resp => {
-        this.props.onUserSignOut({ event, payload: resp })
+        this.props.onUserSignOut({ event, resp })
       },
-      () => {}
+      () => {},
+      data
     )
   }
   onLoginChange = event => {
@@ -170,8 +174,8 @@ class CalendarContainer extends React.Component {
   render() {
     const state = this.props.state.calendar
     return (
-      <div className="App row" data-state={state.currentState}>
-        <main>
+      <div className="App row" data-state={state.currentState} data-authstate={state.authenticationState}>
+        <main className="col">
           <Login
             state={this.props.state}
             onUserSignIn={this.onUserSignIn}
@@ -179,7 +183,7 @@ class CalendarContainer extends React.Component {
             onLoginChange={this.onLoginChange}
             onPasswordChange={this.onPasswordChange}
           />
-          <Calendar />
+          <Calendar state={this.props.state} onUserSignOut={this.onUserSignOut} />
         </main>
       </div>
     )

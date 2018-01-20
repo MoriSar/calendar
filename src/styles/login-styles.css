@@ -1,3 +1,7 @@
+.App[data-authstate="success"] .reject-login {
+	visibility: hidden;
+}
+
 /* Bordered form */
 form {
 	border: 3px solid #f1f1f1;
@@ -57,6 +61,9 @@ img.avatar {
 span.psw {
 	float: right;
 	padding-top: 16px;
+}
+.reject-login {
+	color: #f00;
 }
 
 /* Change styles for span and cancel button on extra small screens */

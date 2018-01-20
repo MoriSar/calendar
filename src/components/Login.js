@@ -10,27 +10,29 @@ const Intro = styled.p`
 `
 */
 
-function Login({state, onUserSignIn, onUserSignUp, onLoginChange, onPasswordChange}) {
-    return (
-        <section id='Login'>
-            <form onSubmit={onUserSignUp}>
-                <div className="container">
-                    <label><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required onChange={onLoginChange}/>
+function Login({ state, onUserSignIn, onUserSignUp, onLoginChange, onPasswordChange }) {
+  return (
+    <section id="Login">
+      <form onSubmit={onUserSignUp}>
+        <div className="container">
+          <label>
+            <b>Username</b>
+          </label>
+          <input type="text" placeholder="Enter Username" name="uname" required onChange={onLoginChange} />
 
-                    <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required onChange={onPasswordChange}/>
-
-                    <button
-                        onClick={onUserSignIn}
-                    >Sign In</button>
-                    <button
-                    onClick={onUserSignUp}
-                        type="">Sign Up</button>
-                </div>
-            </form>
-        </section>
-    )
+          <label>
+            <b>Password</b>
+          </label>
+          <input type="password" placeholder="Enter Password" name="psw" required onChange={onPasswordChange} />
+          <p className="reject-login">{state.calendar.authenticationState}</p>
+          <button onClick={onUserSignIn}>Sign In</button>
+          <button onClick={onUserSignUp} type="">
+            Sign Up
+          </button>
+        </div>
+      </form>
+    </section>
+  )
 }
 
 /*
