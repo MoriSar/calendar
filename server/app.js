@@ -11,12 +11,17 @@ const config = require('./config/')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const calendar = require('./routes/calendar')
-const cors = require('cors');
+const cors = require('cors')
 
 const app = express()
 
 // use it before all route definitions
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
