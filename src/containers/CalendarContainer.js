@@ -73,16 +73,16 @@ class CalendarContainer extends React.Component {
       })
 
     /*const url = API[api].url;
-            const body = data || null;
-            const _headers = headers || {'withCredentials': true};
+                const body = data || null;
+                const _headers = headers || {'withCredentials': true};
 
-            Ajax[API[api].method](url, body, _headers).then((res) => {
-                debugger;
+                Ajax[API[api].method](url, body, _headers).then((res) => {
+                    debugger;
 
-                actionRes(JSON.parse(res));
-            }).catch((err) => {
-                actionRej(err);
-            });*/
+                    actionRes(JSON.parse(res));
+                }).catch((err) => {
+                    actionRej(err);
+                });*/
   }
 
   checkSession() {
@@ -166,6 +166,15 @@ class CalendarContainer extends React.Component {
   onPasswordChange = event => {
     this.props.onPasswordChange({ event })
   }
+  onAddEvent = event => {
+    this.props.onAddEvent({ event })
+  }
+  onRemoveItem = event => {
+    this.props.onRemoveItem({ event })
+  }
+  onSelectChange = event => {
+    this.props.onSelectChange({ event })
+  }
 
   componentDidMount() {
     this.checkSession()
@@ -183,7 +192,13 @@ class CalendarContainer extends React.Component {
             onLoginChange={this.onLoginChange}
             onPasswordChange={this.onPasswordChange}
           />
-          <Calendar state={this.props.state} onUserSignOut={this.onUserSignOut} />
+          <Calendar
+            state={this.props.state}
+            onUserSignOut={this.onUserSignOut}
+            onAddEvent={this.onAddEvent}
+            onRemoveItem={this.onRemoveItem}
+            onSelectChange={this.onSelectChange}
+          />
         </main>
       </div>
     )
