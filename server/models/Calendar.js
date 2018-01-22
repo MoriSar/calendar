@@ -9,6 +9,9 @@ const calendarSchema = new Schema({
         required: true
     },
     calendar: [{
+        id: {
+            type: Number
+        },
         title: {
             type: String
         },

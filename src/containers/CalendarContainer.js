@@ -103,6 +103,7 @@ class CalendarContainer extends React.Component {
             }
         )
     }
+
     setupClientCalendar(data) {
         this.props.setupCliendCalendar({data})
     }
@@ -113,6 +114,7 @@ class CalendarContainer extends React.Component {
 
     onUserSignIn = event => {
         event.preventDefault()
+        let ctx = this;
         const data = {
             name: this.props.state.calendar.login.name,
             password: this.props.state.calendar.login.password,
@@ -121,11 +123,19 @@ class CalendarContainer extends React.Component {
         const headers = {
             withCredentials: true, // headers
         }
-
-        this.useAPI(
+        ctx.useAPI(
             'userSignIn',
             resp => {
-                this.props.onUserSignIn({event, resp})
+                ctx.props.onUserSignIn({event, resp})
+                ctx.useAPI(
+                    'getCalendar',
+                    resp => {
+                        ctx.setupClientCalendar(resp);
+                        ctx.props.sessionIsActive({event})
+                    },
+                    () => {
+                    }
+                )
             },
             () => {
             },
@@ -134,7 +144,8 @@ class CalendarContainer extends React.Component {
         )
     }
     onUserSignUp = event => {
-        event.preventDefault()
+        event.preventDefault();
+        let ctx = this;
         const data = {
             name: this.props.state.calendar.login.name,
             password: this.props.state.calendar.login.password,
@@ -142,8 +153,25 @@ class CalendarContainer extends React.Component {
         this.useAPI(
             'userSignUp',
             resp => {
-                debugger;
-                this.onUserSignIn({event});
+                const data = {
+                    name: this.props.state.calendar.login.name,
+                    password: this.props.state.calendar.login.password,
+                }
+                // const data = `name=${this.props.state.calendar.login.name}&password=${this.props.state.calendar.login.password}`;
+                const headers = {
+                    withCredentials: true, // headers
+                }
+
+                ctx.useAPI(
+                    'userSignIn',
+                    resp => {
+                        ctx.props.onUserSignIn({event, resp})
+                    },
+                    () => {
+                    },
+                    data,
+                    headers
+                )
             },
             () => {
             },
@@ -176,11 +204,13 @@ class CalendarContainer extends React.Component {
         this.props.onSendCalendarToDb({event});
     }
     onRemoveItem = event => {
-        this.props.onRemoveItem({event})
+        this.props.onRemoveItem({event, writeToDb: this.writeToDb.bind(this)})
+        this.props.onSendCalendarToDb({event});
     }
     onSelectChange = event => {
         this.props.onSelectChange({event})
     }
+
     writeToDb(data) {
         this.useAPI(
             'updateCalendar',
@@ -193,6 +223,7 @@ class CalendarContainer extends React.Component {
             data
         )
     }
+
     componentWillMount() {
         this.checkSession()
     }

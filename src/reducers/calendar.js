@@ -185,10 +185,15 @@ function onSignUp(state, payload) {
 }
 
 function onSignOut(state, payload) {
+    const calendar = state.calendar
     return {
         ...state,
         currentState: payload.resp.title,
         authenticationState: payload.resp.status,
+        calendar: {
+            ...calendar,
+            events: []
+        }
     }
 }
 
@@ -264,6 +269,7 @@ function removeItem(state, payload) {
     let newEvents = state.calendar.events.filter((item, key) => {
         return item.id !== eventId;
     });
+    payload.writeToDb({calendar: newEvents});
     return {
         ...state,
         calendar: {
@@ -318,6 +324,7 @@ function getCalendarFromDb(state, payload) {
 function sendCalendarToDb(state, payload) {
     return state;
 }
+
 function setupClientCalendar(state, payload) {
     const calendar = state.calendar
     return {
