@@ -13,6 +13,7 @@ import {
   ON_GET_CALENDAR_FROM_DB,
   SETUP_CLIENT_CALENDAR,
   ON_CLEAR_ALL_EVENTS,
+  ON_EXPORT_CALENDAR,
 } from 'constants/ActionTypes'
 import { createAction } from 'redux-actions'
 
@@ -30,3 +31,4 @@ export const onSendCalendarToDb = createAction(ON_SEND_CALENDAR_TO_DB)
 export const onGetCalendarFromDb = createAction(ON_GET_CALENDAR_FROM_DB)
 export const setupCliendCalendar = createAction(SETUP_CLIENT_CALENDAR)
 export const onClearAllEvents = createAction(ON_CLEAR_ALL_EVENTS)
+export const onExportCalendar = createAction(ON_EXPORT_CALENDAR)

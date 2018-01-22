@@ -13,6 +13,7 @@ import {
   ON_GET_CALENDAR_FROM_DB,
   SETUP_CLIENT_CALENDAR,
   ON_CLEAR_ALL_EVENTS,
+  ON_EXPORT_CALENDAR,
 } from 'constants/ActionTypes'
 
 const initialState = {
@@ -325,6 +326,7 @@ function getCalendarFromDb(state, payload) {
 function sendCalendarToDb(state, payload) {
   return state
 }
+
 function onClearAllEvents(state, payload) {
   const events = state.calendar.events
   const newEventParam = state.calendar.newEventParam
@@ -353,8 +355,6 @@ function onClearAllEvents(state, payload) {
 }
 
 function setupClientCalendar(state, payload) {
-  debugger
-
   const calendar = state.calendar
   return {
     ...state,
@@ -363,6 +363,11 @@ function setupClientCalendar(state, payload) {
       events: payload.data.calendar,
     },
   }
+}
+
+function onExportCalendar(state, payload) {
+  payload.exportCalendar()
+  return state
 }
 
 export default function calendar(state = initialState, action) {
@@ -395,6 +400,8 @@ export default function calendar(state = initialState, action) {
       return setupClientCalendar(state, action.payload)
     case ON_CLEAR_ALL_EVENTS:
       return onClearAllEvents(state, action.payload)
+    case ON_EXPORT_CALENDAR:
+      return onExportCalendar(state, action.payload)
     default:
       return state
   }

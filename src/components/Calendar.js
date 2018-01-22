@@ -10,7 +10,15 @@ const Intro = styled.p`
 `
 */
 
-function Calendar({ state, onUserSignOut, onAddEvent, onRemoveItem, onSelectChange, onClearAllEvents }) {
+function Calendar({
+  state,
+  onUserSignOut,
+  onAddEvent,
+  onRemoveItem,
+  onSelectChange,
+  onClearAllEvents,
+  onExportCalendar,
+}) {
   const calendar = state.calendar.calendar
   return (
     <section id="Calendar" className="col row">
@@ -97,6 +105,9 @@ function Calendar({ state, onUserSignOut, onAddEvent, onRemoveItem, onSelectChan
           />
           <button type="button" className="btn btn-secondary col" data-value="AddEvent" onClick={onAddEvent}>
             Add event
+          </button>
+          <button type="button" className="btn btn-info col" data-value="AddEvent" onClick={onExportCalendar}>
+            Export
           </button>
         </div>
         <button type="button" className="btn btn-primary col" data-value="Signout" onClick={onUserSignOut}>

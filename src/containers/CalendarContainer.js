@@ -34,6 +34,10 @@ const API = {
     method: 'POST',
     url: 'http://localhost:3030/calendar/update',
   },
+  exportCalendar: {
+    method: 'GET',
+    url: 'http://localhost:3030/calendar/export',
+  },
 }
 
 class CalendarContainer extends React.Component {
@@ -203,6 +207,12 @@ class CalendarContainer extends React.Component {
   onSelectChange = event => {
     this.props.onSelectChange({ event })
   }
+  onExportCalendar = event => {
+    this.props.onExportCalendar({ event, exportCalendar: this.exportCalendar.bind(this) })
+  }
+  exportCalendar(data) {
+    this.useAPI('exportCalendar', resp => {}, err => {}, data)
+  }
 
   writeToDb(data) {
     this.useAPI('updateCalendar', resp => {}, err => {}, data)
@@ -231,6 +241,7 @@ class CalendarContainer extends React.Component {
             onRemoveItem={this.onRemoveItem}
             onSelectChange={this.onSelectChange}
             onClearAllEvents={this.onClearAllEvents}
+            onExportCalendar={this.onExportCalendar}
           />
         </main>
       </div>
