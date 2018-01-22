@@ -93,7 +93,18 @@ class CalendarContainer extends React.Component {
     }
 
     sessionIsActive(event) {
-        this.props.sessionIsActive({event})
+        this.useAPI(
+            'getCalendar',
+            resp => {
+                this.setupClientCalendar(resp);
+                this.props.sessionIsActive({event})
+            },
+            () => {
+            }
+        )
+    }
+    setupClientCalendar(data) {
+        this.props.setupCliendCalendar({data})
     }
 
     sessionIsGone(event) {
@@ -131,7 +142,8 @@ class CalendarContainer extends React.Component {
         this.useAPI(
             'userSignUp',
             resp => {
-                this.props.onUserSignUp({event, resp})
+                debugger;
+                this.onUserSignIn({event});
             },
             () => {
             },
@@ -160,7 +172,7 @@ class CalendarContainer extends React.Component {
         this.props.onPasswordChange({event})
     }
     onAddEvent = event => {
-        this.props.onAddEvent({event})
+        this.props.onAddEvent({event, writeToDb: this.writeToDb.bind(this)})
         this.props.onSendCalendarToDb({event});
     }
     onRemoveItem = event => {
@@ -169,8 +181,19 @@ class CalendarContainer extends React.Component {
     onSelectChange = event => {
         this.props.onSelectChange({event})
     }
-
-    componentDidMount() {
+    writeToDb(data) {
+        this.useAPI(
+            'updateCalendar',
+            resp => {
+                console.log(resp);
+            },
+            (err) => {
+                console.log(err);
+            },
+            data
+        )
+    }
+    componentWillMount() {
         this.checkSession()
     }
 

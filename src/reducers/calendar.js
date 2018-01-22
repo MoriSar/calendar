@@ -10,7 +10,8 @@ import {
     ON_REMOVE_ITEM,
     ON_SELECT_CHANGE,
     ON_SEND_CALENDAR_TO_DB,
-    ON_GET_CALENDAR_FROM_DB
+    ON_GET_CALENDAR_FROM_DB,
+    SETUP_CLIENT_CALENDAR
 } from 'constants/ActionTypes'
 
 const initialState = {
@@ -234,11 +235,13 @@ function addEvent(state, payload) {
     const newEventParam = state.calendar.newEventParam
     const calendar = state.calendar
     newEventParam.id = Date.now()
+    const newEvents = [...events, newEventParam];
+    payload.writeToDb({calendar: newEvents});
     return {
         ...state,
         calendar: {
             ...calendar,
-            events: [...events, newEventParam],
+            events: newEvents,
             newEventParam: {
                 start: 0,
                 duration: 0,
@@ -302,11 +305,28 @@ function onSelectChange(state, payload) {
 }
 
 function getCalendarFromDb(state, payload) {
-    return state;
+    const calendar = state.calendar
+    return {
+        ...state,
+        calendar: {
+            ...calendar,
+            events: payload.data.calendar
+        },
+    };
 }
 
 function sendCalendarToDb(state, payload) {
     return state;
+}
+function setupClientCalendar(state, payload) {
+    const calendar = state.calendar
+    return {
+        ...state,
+        calendar: {
+            ...calendar,
+            events: payload.data.calendar
+        },
+    };
 }
 
 export default function calendar(state = initialState, action) {
@@ -335,6 +355,8 @@ export default function calendar(state = initialState, action) {
             return sendCalendarToDb(state, action.payload)
         case ON_GET_CALENDAR_FROM_DB:
             return getCalendarFromDb(state, action.payload)
+        case SETUP_CLIENT_CALENDAR:
+            return setupClientCalendar(state, action.payload)
         default:
             return state
     }

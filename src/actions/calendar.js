@@ -10,7 +10,8 @@ import {
     ON_REMOVE_ITEM,
     ON_SELECT_CHANGE,
     ON_SEND_CALENDAR_TO_DB,
-    ON_GET_CALENDAR_FROM_DB
+    ON_GET_CALENDAR_FROM_DB,
+    SETUP_CLIENT_CALENDAR
 } from 'constants/ActionTypes'
 import {createAction} from 'redux-actions'
 
@@ -26,3 +27,4 @@ export const onRemoveItem = createAction(ON_REMOVE_ITEM)
 export const onSelectChange = createAction(ON_SELECT_CHANGE)
 export const onSendCalendarToDb = createAction(ON_SEND_CALENDAR_TO_DB)
 export const onGetCalendarFromDb = createAction(ON_GET_CALENDAR_FROM_DB)
+export const setupCliendCalendar = createAction(SETUP_CLIENT_CALENDAR)

@@ -17,7 +17,7 @@ router.post('/get', function (req, res, next) {
 })
 router.post('/update', function (req, res, next) {
     if (req.session.user) {
-        const calendar = JSON.parse(req.body.calendar);
+        const calendar = req.body.calendar;
         api.updateCalendar(req.session.user.id, calendar)
             .then(function (result) {
                 res.send(JSON.stringify(result));

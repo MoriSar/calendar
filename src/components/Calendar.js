@@ -12,7 +12,6 @@ const Intro = styled.p`
 
 function Calendar({state, onUserSignOut, onAddEvent, onRemoveItem, onSelectChange}) {
     const calendar = state.calendar.calendar
-    debugger;
     return (
         <section id="Calendar" className="col row">
             <div className="calendar col row">
