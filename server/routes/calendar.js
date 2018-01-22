@@ -22,8 +22,7 @@ router.post('/update', function(req, res, next) {
     api
       .updateCalendar(req.session.user.id, calendar)
       .then(function(result) {
-        api.exportToJSONFile(result.calendar)
-        res.send(JSON.stringify(result))
+        api.exportToJSONFile(result.calendar, res)
       })
       .catch(function(err) {
         console.log(err)
