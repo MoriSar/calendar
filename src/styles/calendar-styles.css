@@ -33,6 +33,19 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.3s;
+}
+.events .event:hover {
+  overflow: inherit;
+  text-overflow: inherit;
+  white-space: inherit;
+  left: 100px!important;
+  width: 200px!important;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  background: #dce7f1;
+  z-index: 1;
 }
 
 .add-event-panel {
