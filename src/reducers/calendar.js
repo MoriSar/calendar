@@ -154,21 +154,6 @@ const initialState = {
     },
   },
 }
-const setCookie = (name, value, days = 7, path = '/') => {
-  const expires = new Date(Date.now() + days * 864e5).toUTCString()
-  document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-}
-
-const getCookie = name => {
-  return document.cookie.split('; ').reduce((r, v) => {
-    const parts = v.split('=')
-    return parts[0] === name ? decodeURIComponent(parts[1]) : r
-  }, '')
-}
-
-const deleteCookie = (name, path) => {
-  setCookie(name, '', -1, path)
-}
 
 function onSignIn(state, payload) {
   return {
@@ -248,7 +233,7 @@ function addEvent(state, payload) {
     ...state,
     calendar: {
       ...calendar,
-      events: newEvents,
+      events: layOutDay(newEvents),
       newEventParam: {
         start: 0,
         duration: 0,
@@ -272,11 +257,12 @@ function removeItem(state, payload) {
     return item.id !== eventId
   })
   payload.writeToDb({ calendar: newEvents })
+
   return {
     ...state,
     calendar: {
       ...calendar,
-      events: newEvents,
+      events: layOutDay(newEvents),
     },
   }
 }
@@ -334,6 +320,7 @@ function onClearAllEvents(state, payload) {
   newEventParam.id = Date.now()
   const newEvents = []
   payload.writeToDb({ calendar: newEvents })
+
   return {
     ...state,
     calendar: {
@@ -356,11 +343,12 @@ function onClearAllEvents(state, payload) {
 
 function setupClientCalendar(state, payload) {
   const calendar = state.calendar
+  let events = layOutDay(payload.data.calendar)
   return {
     ...state,
     calendar: {
       ...calendar,
-      events: payload.data.calendar,
+      events: events,
     },
   }
 }
@@ -368,6 +356,118 @@ function setupClientCalendar(state, payload) {
 function onExportCalendar(state, payload) {
   payload.exportCalendar()
   return state
+}
+
+const containerHeight = 720
+const containerWidth = 200
+const minutesinDay = 60 * 12
+let collisions = []
+let width = []
+let leftOffSet = []
+
+function getCollisions(events) {
+  //resets storage
+  collisions = []
+
+  for (let i = 0; i < 24; i++) {
+    let time = []
+    for (let j = 0; j < events.length; j++) {
+      time.push(0)
+    }
+    collisions.push(time)
+  }
+
+  events.forEach((event, id) => {
+    let end = event.start + event.duration
+    let start = event.start
+    let order = 1
+
+    while (start < end) {
+      let timeIndex = Math.floor(start / 30)
+
+      while (order < events.length) {
+        if (collisions[timeIndex].indexOf(order) === -1) {
+          break
+        }
+        order++
+      }
+
+      collisions[timeIndex][id] = order
+      start = start + 30
+    }
+
+    collisions[Math.floor((end - 1) / 30)][id] = order
+  })
+}
+
+function getAttributes(events) {
+  //resets storage
+  width = []
+  leftOffSet = []
+
+  for (let i = 0; i < events.length; i++) {
+    width.push(0)
+    leftOffSet.push(0)
+  }
+
+  collisions.forEach(period => {
+    // number of events in that period
+    let count = period.reduce((a, b) => {
+      return b ? a + 1 : a
+    })
+
+    if (count > 1) {
+      period.forEach((event, id) => {
+        // max number of events it is sharing a time period with determines width
+        if (period[id]) {
+          if (count > width[id]) {
+            width[id] = count
+          }
+        }
+
+        if (period[id] && !leftOffSet[id]) {
+          leftOffSet[id] = period[id]
+        }
+      })
+    }
+  })
+}
+
+function layOutDay(events) {
+  if (!events.length) {
+    return []
+  }
+
+  let layoutEvents = []
+  getCollisions(events)
+  getAttributes(events)
+
+  events.forEach((event, id) => {
+    let end = event.start + event.duration
+    let height = (end + event.start) / minutesinDay * containerHeight
+    let top = event.start / minutesinDay * containerHeight
+    let start = event.start
+    let units = width[id]
+    if (!units) {
+      units = 1
+    }
+    let eventWidth = containerWidth / units
+    let left = containerWidth / width[id] * (leftOffSet[id] - 1) + 100
+
+    if (!left || left < 0) {
+      left = 100
+    }
+    layoutEvents.push({
+      ...event,
+      height,
+      top,
+      left,
+      units,
+      eventWidth,
+    })
+  })
+
+  return layoutEvents
 }
 
 export default function calendar(state = initialState, action) {

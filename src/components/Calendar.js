@@ -42,8 +42,10 @@ function Calendar({
                   onClick={onRemoveItem}
                   id={item.id}
                   style={{
-                    top: `${item.start * 2}px`,
-                    height: `${item.duration * 2}px`,
+                    top: `${item.top * 2}px`,
+                    left: `${item.left}px`,
+                    height: `${item.height * 2}px`,
+                    width: `${item.eventWidth}px`,
                   }}
                 >
                   {item.title}

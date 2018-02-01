@@ -1,34 +1,42 @@
 .calendar .column {
-    position: relative;
+  position: relative;
 }
+
 .calendar-layout {
-    list-style: none;
-    text-align: left;
-    font-family: 'Open Sans', sans-serif;
-    width: 285px;
+  list-style: none;
+  text-align: left;
+  font-family: 'Open Sans', sans-serif;
+  width: 285px;
 }
+
 .calendar-layout .item {
-    height: 60px;
-    color: #a2a2a2;
+  height: 60px;
+  color: #a2a2a2;
 }
+
 .calendar-layout .main {
-    border-top: 1px solid #a2a2a2;
-    font-size: 16px;
+  border-top: 1px solid #a2a2a2;
+  font-size: 16px;
 }
+
 .calendar-layout .secondary {
-    font-size: 12px;
+  font-size: 12px;
 }
+
 .events .event {
-    left: 100px;
-    position: absolute;
-    width: 200px;
-    border-left: 2px solid #6E9ECF;
-    background: #E2ECF5;
-    text-align: left;
-    padding-left: 5px;
+  left: 100px;
+  position: absolute;
+  border-left: 2px solid #6E9ECF;
+  background: #E2ECF5;
+  text-align: left;
+  padding-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .add-event-panel {
-    border: 1px solid #0085ff;
-    border-radius: 5px;
-    padding: 5px 5px;
+  border: 1px solid #0085ff;
+  border-radius: 5px;
+  padding: 5px 5px;
 }
